@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const { render } = require('ejs');
-const dailyFF = require('./dailyExpensesDB')();
+const daily = require('./dailyExpensesDB');
 // const routes = require('./routs/waters-routs')
 
 const local_database_url = 'postgres://siyabonga:siya@localhost:5432/daily_expenses';
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV == "production") {
     }
 }
 
-// const db = pgp(config);
+const db = pgp(config);
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
@@ -56,6 +56,7 @@ app.use(
 );
 
 
+const dailyFF = daily(db)
 
 
 app.get('/', function (req, res) {
@@ -82,11 +83,8 @@ app.post('/adduser', async function (req, res) {
     res.redirect(`/adduser/${getname}`)
 })
 
-app.get('/adduser:', async function(req,res){
-    
-
+app.get('/adduser:name', async function(req,res){
     res.render('expence',{
-        
     })
 
 })

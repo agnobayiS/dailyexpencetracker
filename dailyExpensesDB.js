@@ -13,10 +13,7 @@ module.exports = function waiters(db) {
 
 
         if (names) {
-
-    
            return await db.none('insert into login (names) values ($1)', [names])
-
         }
 
     }
@@ -39,7 +36,6 @@ module.exports = function waiters(db) {
         let user = await db.manyOrNone('select * from logins where names = $1',[name])
         return user
     }
-
 
     return {
         validateLogIns,
