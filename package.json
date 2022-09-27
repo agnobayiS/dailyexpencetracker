@@ -1,5 +1,5 @@
 {
-  "name": "waiters",
+  "name": "dalyexpence",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,16 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agnobayiS/waiters.git"
+    "url": "git+https://github.com/agnobayiS/dailyExpenses..git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/agnobayiS/waiters/issues"
+    "url": "https://github.com/agnobayiS/dailyExpenses./issues"
   },
-  "homepage": "https://github.com/agnobayiS/waiters#readme",
-  "dependencies": {
+  "homepage": "https://github.com/agnobayiS/dailyExpenses.#readme"
+  
+  ,"dependencies": {
     "body-parser": "^1.20.0",
     "chai": "^4.3.6",
     "connect-flash": "^0.1.1",
