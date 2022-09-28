@@ -80,6 +80,7 @@ app.post('/login', async function (req, res) {
     let validate = await dailyFF.checkUser(user)
     if (validate) {
         console.log("_____- not grant_____");
+        res.redirect("back")
     } else {
         console.log(user_name);
         res.redirect(`/expenses/${user_name}`)
