@@ -1,4 +1,4 @@
-<html>>
+
 
 <body>
     <div class="header">
@@ -7,21 +7,25 @@
             <a href="/" class="nav-link">HOME</a>
         </nav>
     </div>
-    <div style="height:30px ;">
-        <h1></h1>
-    </div>
+    <br>
+    {{#if messages.info}}
+    <div style="height:30px ;" class="massages">
+        <h3 style="color:green; font-size:15px " class="massages">{{messages.info}}</h3>
+    </div>{{/if}}
+    
+    <br>
     <div class="title2">Please Enter your Expence and select Expence Type</div>
 
 
     </div>
-    <form action="/addExpence" method="post" class="input-class">
+    <form action="/addExpence/{{name}}" method="post" class="input-class">
 
         <div class="container">
             <div class="row">
 
                 <div class="col-6 name-input ">
                     {{!-- <h3 style="padding-right: 10px;">NAME</h1> --}}
-                        <input class="amount" name="amount" style="padding-left: 20px; height: 30px;" type="number"
+                        <input class="amount" name="amount" style="padding-left: 5px; height: 30px;" type="number"
                             placeholder="Enter Expence" />
                         {{!-- <div style="padding-left: 30px;">{{counter}}</div> --}}
                 </div>
@@ -30,23 +34,39 @@
         <br>
         <div class="container">
             <div class="row">
-
                 <div class="col-12 radioBtn ">
 
-                    <br>
-                    <label for="btn" class="label">TRAVEL</label>
-                    <input class="radio" id="btn" name="btn" type="radio" value="travel" />
-
-                    <label for="btn2" class="label">FOOD</label>
-                    <input class="radio" id="btn2" name="btn" type="radio" value="food" />
-
-                    <label for="btn3" class="label">TOILETRIES</label>
-                    <input class="radio" id="btn3" name="btn" type="radio" value="toiletries" />
-
-                    <label for="btn4" class="label">COMMUNICATION</label>
-                    <input class="radio" id="btn4" name="btn" type="radio" value="communication" />
+                    <p>
+                        <label>
+                            <input name="group1" value="TRANSPORT" type="radio" checked />
+                            <span>TRAVEL</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="group1" value="FOOD" type="radio" />
+                            <span>FOOD</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" value="ENTERTAINMENT" name="group1" type="radio" />
+                            <span>TOILETRIES</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="group1" type="radio" value="COMMUNICATION" />
+                            <span>COMMUNICATION</span>
+                        </label>
+                    </p>
                 </div>
+
             </div>
+
+        </div>
+        <div class="container">
+
         </div>
         <br>
         <div class="container">
@@ -62,7 +82,7 @@
         </div>
 
     </form>
-        <br>
+    <br>
 
     <form action="/expenses" method="get" class="input-class">
         <br><br>
@@ -77,10 +97,7 @@
         </div>
     </form>
 
-
-
-
-
+    <script src="../public/timeout.js"></script>
 </body>
 
-</html
+</html>

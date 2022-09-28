@@ -1,5 +1,5 @@
 setTimeout(function () {
 
-    // document.querySelector(".massage").innerHTML = ''
+    document.querySelector(".massages").innerHTML = ''
 },
 3000);
