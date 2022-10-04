@@ -5,11 +5,12 @@ const bodyParser = require('body-parser')
 const session = require('express-session');
 const { render } = require('ejs');
 const daily = require('./dailyExpensesDB');
+const { default: ShortUniqueId } = require('short-unique-id');
 // const routes = require('./routs/waters-routs')
 
 
 const pgp = require('pg-promise')();
-
+// const ShortUniqueId = ('short-unique-id')
 
 const local_database_url = 'postgres://siyabonga:siya@localhost:5432/daily_expenses';
 let connectionString = process.env.DATABASE_URL || local_database_url;
@@ -17,12 +18,14 @@ let connectionString = process.env.DATABASE_URL || local_database_url;
 
 const app = express();
 
+const uid = new ShortUniqueId({ length: 6 });
+
 
 const config = {
-    connectionString  
+    connectionString
 }
 if (process.env.NODE_ENV == "production") {
-  
+
     config.ssl = {
         rejectUnauthorized: false
     }
@@ -74,15 +77,20 @@ app.get('/', function (req, res) {
 app.post('/login', async function (req, res) {
 
     let user_name = req.body.name
-    let user_email = req.body.email
-  let user  = user_name.toUpperCase()
-    user_email.toUpperCase() 
-    let validate = await dailyFF.checkUser(user)
-    if (validate) {
-        console.log("_____- not grant_____");
-        res.redirect("back")
-    } else {
-        console.log(user_name);
+    let user_code = req.body.code
+    let user = user_name.toUpperCase()
+    
+
+    let validate = await dailyFF.checkcode(user_code)
+    let validate2 = await dailyFF.checkUser(user)
+    
+    if (validate && validate2) {
+        
+        res.redirect('/')
+
+        
+    } else if(!validate && !validate2) {
+        
         res.redirect(`/expenses/${user_name}`)
     }
 });
@@ -92,35 +100,37 @@ app.get('/adduser', function (req, res) {
 
 app.post('/adduser', async function (req, res) {
 
-    const name = req.body.name
-    const surname = req.body.surname
-    const email = req.body.email
-
-    if(name && surname && email){
-        
-        await dailyFF.create_user(name, surname, email)
-    } else {
-        
-        console.log("-------not inserted------------+");
-
-    }
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const email = req.body.email;
     
-    res.redirect('/')
+    if (name && surname && email) {
+        
+        const code = uid();
+
+        await dailyFF.create_user(name, surname, email ,code)
+        req.flash('info', 'Account created!! your login code is: ' + code );
+    } else {
+        req.flash('erro', 'Please enter valid details');
+        
+    }
+
+    res.render('signup')
 })
 
-app.get('/adduser:name', async function(req,res){
-    res.render('expence',{
+app.get('/adduser/:name', async function (req, res) {
+    res.render('expence', {
     })
 
 })
 
-app.get('/expenses/:name',async function (req,res){
+app.get('/expenses/:name', async function (req, res) {
 
     let name = req.params.name
 
 
-    res.render('expence',{
-name
+    res.render('expence', {
+        name
     })
 })
 
@@ -129,24 +139,28 @@ app.post('/addExpence/:name', async function (req, res) {
     const type = req.body.group1
     console.log(type);
     let name = req.params.name
-    if(amount && type){
+    if (amount && type) {
         let user = name.toUpperCase();
         let catergory = type.toUpperCase()
-        await dailyFF.insertExpence(user,catergory , amount)
+        await dailyFF.insertExpence(user, catergory, amount)
 
         req.flash('info', 'Your Daily Expens has been added');
-    }else{
+    } else {
         req.flash('info', 'Enter your Expens and type');
     }
     res.redirect(`/expenses/${name}`)
 })
 
-app.get('/expenses', function (req, res) {
+app.get('/expense/:name',async function (req, res) {
+    
+    let name = req.params.name
+    name = name.toUpperCase()
+    let nam = await db.one('select ID from logins where NAMES = $1', [name] )
 
-
-res.render('admin',{
-
-})
+    let data = await dailyFF.alldata(nam.id)
+    res.render('admin', {
+        data
+    })
 })
 
 

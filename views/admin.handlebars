@@ -1,10 +1,40 @@
 <form action="/admin" method="get">
 
-<div>
+    <div>
+        <div class="regNumbers ">
 
-    
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>amount</th>
+                    <th>category_id</th>
+                </tr>
+            {{#each data}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.expencesename}}</td>
+                    <td>{{this.amount}}</td>
+                    <td>{{this.category_id}}</td>
+                </tr>
+            {{/each}}
+            </table>
+
+            {{!-- <div class="regNumberStyle">{{this.data}}</div> --}}
+
+
+        </div>
+
+    </div>
+</form>
+<form>
+
+<div style="padding-top: 40px ;">
+    <button class="btn" type="resert">RESERT DATA</button>
 </div>
 
-
-
 </form>
+
+
