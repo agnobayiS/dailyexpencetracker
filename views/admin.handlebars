@@ -1,40 +1,73 @@
+
+<body>
+    {{#each data}}
+<form action="/filter/{{this.names}}" method="get">
+{{/each}}
+ <div class="containe">
+              
+                <br>
+                <div class="row">
+                    <div class="texInput">
+                        <label for="date">INITIAL DATE</label>
+                        <input type="date" name="date" class="names" format="yyyy-mm-dd">
+                        <button class="btn" type="submit" >SUBMIT</button>
+            
+                    </div>
+
+                </div>
+            </div>
+</form>
+
 <form action="/admin" method="get">
 
-    <div>
-        <div class="regNumbers ">
+    <div class="containe">
 
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Category</th>
-                    <th>amount</th>
-                    <th>category_id</th>
-                </tr>
-            {{#each data}}
-                <tr>
-                    <td>{{this.id}}</td>
-                    <td>{{this.date}}</td>
-                    <td>{{this.expencesename}}</td>
-                    <td>{{this.amount}}</td>
-                    <td>{{this.category_id}}</td>
-                </tr>
-            {{/each}}
-            </table>
+        {{#if messages.erro}}
+        <div style="height:30px ;" class="massages">
+            <h3 style="color:red; font-size:15px " class="massages">{{messages.erro}}</h3>
+        </div>{{/if}}
 
-            {{!-- <div class="regNumberStyle">{{this.data}}</div> --}}
-
-
-        </div>
 
     </div>
+    <div class="containe">
+        <div>
+            <div class="regNumbers ">
+
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>amount</th>
+                        <th>category_id</th>
+                    </tr>
+                    {{#each data}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.date}}</td>
+                        <td>{{this.expencesename}}</td>
+                        <td>{{this.amount}}</td>
+                        <td>{{this.category_id}}</td>
+                    </tr>
+                    {{/each}}
+                </table>
+
+                {{!-- <div class="regNumberStyle">{{this.data}}</div> --}}
+
+
+            </div>
+
+        </div>
+    </div>
 </form>
-<form>
+{{#each data}}
 
-<div style="padding-top: 40px ;">
-    <button class="btn" type="resert">RESERT DATA</button>
-</div>
+<form action="/resert/{{this.names_id}}" method="get">
+    {{/each}}
 
+    <div style="padding-top: 40px ;">
+        <button class="btn" type="resert">RESERT DATA</button>
+    </div>
 </form>
-
-
+<script src="/timeout.js"></script>
+</body>

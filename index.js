@@ -86,6 +86,7 @@ app.post('/login', async function (req, res) {
     
     if (validate && validate2) {
         
+        req.flash('erro', 'Please enter valid details');
         res.redirect('/')
 
         
@@ -158,9 +159,36 @@ app.get('/expense/:name',async function (req, res) {
     let nam = await db.one('select ID from logins where NAMES = $1', [name] )
 
     let data = await dailyFF.alldata(nam.id)
+    
     res.render('admin', {
         data
     })
+})
+app.get('/filter/:name',async function(req,res){
+    
+    let date = req.body.date
+    let name = req.params.name
+    name = name.toUpperCase()
+    
+
+    let data = await dailyFF.filter(name,date)
+
+    res.render('admin', {
+        data
+    }) 
+})
+
+app.get('/resert/:user_id',async function(req,res){
+
+    let user_id = req.params.user_id
+
+    let data = await dailyFF.deletedata(user_id)
+    req.flash('erro', 'Your Data have been deleted');
+    
+    res.render('admin', {
+        data
+    })
+
 })
 
 
